@@ -1,0 +1,9 @@
+order_id,order_date,product,quantity,unit_price,status
+O-001,2026-03-01,Trà sữa truyền thống,2,35000,completed
+O-002,2026-03-02,Trà sữa truyền thống,1,35000,completed
+O-003,2026-03-03,Cà phê sữa,3,28000,completed
+O-004,2026-03-04,Trà sữa truyền thống,8,35000,completed
+O-005,2026-02-27,Cà phê sữa,2,28000,completed
+O-006,2026-03-04,Bánh flan,4,12000,cancelled
+O-007,2026-03-04,Cà phê sữa,1,28000,returned
+

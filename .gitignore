@@ -1,0 +1,14 @@
+.venv/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+data/*
+!data/README.md
+outputs/*
+!outputs/.gitkeep
+models/*
+*.sqlite-wal
+*.sqlite-shm
+

@@ -1,0 +1,7 @@
+{
+  "max_sql_seconds": 2.0,
+  "max_sql_vm_steps": 1000000,
+  "max_result_rows": 500,
+  "output_control_answer_null": true
+}
+

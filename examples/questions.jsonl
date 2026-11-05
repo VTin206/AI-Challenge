@@ -1,0 +1,5 @@
+{"id":"demo_revenue_march","business_id":"biz_demo","question":"Tổng doanh thu tháng này là bao nhiêu?","as_of_date":"2026-03-04"}
+{"id":"demo_top_last_week","business_id":"biz_demo","question":"Sản phẩm bán nhiều nhất tuần rồi là gì?","as_of_date":"2026-03-04"}
+{"id":"demo_count","business_id":"biz_demo","question":"Có bao nhiêu đơn hàng?","as_of_date":"2026-03-04"}
+{"id":"demo_lunar","business_id":"biz_demo","question":"Doanh thu tháng âm lịch này là bao nhiêu?","as_of_date":"2026-03-04"}
+
