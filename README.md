@@ -9,7 +9,6 @@
   <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white" alt="NumPy">
   <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white" alt="Pandas">
   <img src="https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white" alt="Jupyter">
-  <img src="https://img.shields.io/badge/Kaggle-20BEFF?style=for-the-badge&logo=kaggle&logoColor=white" alt="Kaggle">
 </p>
 
 CPU-first, modular baseline for Vietnamese question answering over CSV, Excel, and SQLite business packages. It reads an `as_of_date`, profiles schemas, loads business notes and rulebooks, plans a constrained query, executes read-only SQL, and emits one JSON object per line.
