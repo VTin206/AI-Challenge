@@ -8,7 +8,11 @@ Goal: reach the top of the public leaderboard (SLM) before **2026-11-16 23:59 GM
 
 1. Open the Drive link and choose **Add shortcut to Drive → My Drive**. The notebooks expect the folder at `/content/drive/MyDrive/DataMate_ZAC2026`.
 2. The link is read-only. To write runs and models, ask the folder owner to add your Gmail as an **Editor**. Without that, change `DRIVE_ROOT` in the first cell to a folder of your own.
-3. Open a notebook from `notebooks/` on Drive (or from the GitHub repo) in Colab. Choose **Runtime → Change runtime type → A100 GPU**.
+3. Open a notebook straight from GitHub, so you always get the latest version, and choose **Runtime → Change runtime type → A100 GPU**:
+   - [01 eval + submission](https://colab.research.google.com/github/VTin206/AI-Challenge/blob/feat/slm-agent/notebooks/01_zero_shot_eval.ipynb)
+   - [02 trajectories](https://colab.research.google.com/github/VTin206/AI-Challenge/blob/feat/slm-agent/notebooks/02_generate_trajectories.ipynb)
+   - [03 SFT](https://colab.research.google.com/github/VTin206/AI-Challenge/blob/feat/slm-agent/notebooks/03_sft_qlora.ipynb)
+   - [04 eval adapter](https://colab.research.google.com/github/VTin206/AI-Challenge/blob/feat/slm-agent/notebooks/04_eval_finetuned.ipynb)
 
 ## Drive layout
 
@@ -16,7 +20,7 @@ Goal: reach the top of the public leaderboard (SLM) before **2026-11-16 23:59 GM
 DataMate_ZAC2026/
   data/train/train.zip              # competition train split (has answers.jsonl)
   data/public_test/public_test.zip  # public test, inference only
-  notebooks/01..04 *.ipynb
+  README_TEAM.md                    # short guide + Colab links
   runs/<run>/submission.jsonl, log.jsonl, run_config.json
   models/<run>/adapter/             # LoRA adapters from notebook 03
   training/data/                    # generated trajectories (sft.jsonl, raw/, yield_report.json)
