@@ -87,6 +87,19 @@ class FakeEngine:
         return outs
 
 
+def test_final_without_code_is_sent_back(tmp_path, cache):
+    from datamate.slm.agent import run_trajectories
+
+    class Guesser(FakeEngine):
+        def generate(self, prompts, max_tokens, seeds):
+            return ['<final>{"type": "number", "answer": 7, "unit": "count"}</final>'] * len(prompts)
+
+    with Sandbox(cache, None, workers=1) as sb:
+        res = run_trajectories(Guesser(), sb, [{"id": "q", "question": "?", "as_of_date": "2026-03-04"}], "ctx", k=1, max_turns=2)
+    t = res["q"][0]
+    assert t.forced and t.answer == {"type": "number", "answer": 7} and t.turns == 3
+
+
 def test_run_end_to_end_with_fake_engine_and_resume(tmp_path):
     cfg = load_config(None, {"k": 2, "sandbox_workers": 1, "cache_dir": str(tmp_path / "cache")})
     out = tmp_path / "out"

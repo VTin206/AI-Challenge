@@ -75,7 +75,7 @@ def _seed(base: int, tid: str, turn: int) -> int:
 
 
 def run_trajectories(engine, sandbox, questions: list[dict], context: str, *, k: int, max_turns: int = 5,
-                     seed: int = 0, min_budget: int = 512, on_round=None) -> dict[str, list[Trajectory]]:
+                     seed: int = 0, min_budget: int = 512, require_code: bool = True, on_round=None) -> dict[str, list[Trajectory]]:
     cfg = engine.cfg
     trajs = [
         Trajectory(q["id"], s, q["question"], q["as_of_date"], [
@@ -126,7 +126,9 @@ def run_trajectories(engine, sandbox, questions: list[dict], context: str, *, k:
                 t.steps.append({"turn": t.turns, "reply": reply, "kind": kind})
                 t.messages.append({"role": "assistant", "content": _THINK.sub("", reply).strip()})
                 t.turns += 1
-                if kind == "final":
+                if kind == "final" and require_code and not t.forced and not any(s.get("kind") == "code" for s in t.steps):
+                    t.messages.append({"role": "user", "content": "Chưa chạy code nào. Hãy kiểm tra dữ liệu bằng <code>...</code> trước khi trả lời."})
+                elif kind == "final":
                     try:
                         t.answer = coerce(payload.get("type"), payload.get("answer"), payload.get("unit"), payload.get("reason"))
                     except (InvalidAnswer, AttributeError) as exc:

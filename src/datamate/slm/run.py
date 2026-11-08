@@ -18,7 +18,7 @@ from .vote import aggregate
 
 DEFAULTS: dict[str, Any] = {
     "k": 5, "max_turns": 5, "seed": 0, "tau": 0.0, "tau_by_type": {}, "sandbox_workers": 8,
-    "exec_timeout": 20, "card_chars": 12000, "chunk_questions": 64, "cache_dir": "cache",
+    "exec_timeout": 20, "card_chars": 12000, "require_code": True, "chunk_questions": 64, "cache_dir": "cache",
 }
 
 
@@ -109,7 +109,8 @@ def run(split: Path, out: Path, cfg: dict[str, Any], ids: set[str] | None = None
                 for i in range(0, len(qs), cfg["chunk_questions"]):
                     chunk = qs[i:i + cfg["chunk_questions"]]
                     c0 = time.time()
-                    result = run_trajectories(engine, sandbox, chunk, context, k=cfg["k"], max_turns=cfg["max_turns"], seed=cfg["seed"])
+                    result = run_trajectories(engine, sandbox, chunk, context, k=cfg["k"], max_turns=cfg["max_turns"], seed=cfg["seed"],
+                                              require_code=cfg["require_code"])
                     per_q = (time.time() - c0) / max(1, len(chunk))
                     for q in chunk:
                         trajs = result.get(q["id"], [])
