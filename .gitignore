@@ -12,3 +12,12 @@ models/*
 *.sqlite-wal
 *.sqlite-shm
 
+dm-env/
+*.zip
+!models/README.md
+training_code/data/
+training_code/logs/
+training_code/checkpoints/
+training_code/outputs/
+cache/
+*.pkl

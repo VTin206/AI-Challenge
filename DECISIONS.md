@@ -1,7 +1,7 @@
 # Decisions
 
 1. Use Python 3.11+ and the standard-library SQLite engine for a CPU-first baseline. It avoids a large analytical dependency and gives us an authorizer for read-only SQL.
-2. Use `openpyxl` only for XLSX reading. Do not depend on pandas for simple row ingestion.
+2. Use `openpyxl` for XLSX reading. The deterministic baseline stays stdlib-only; the SLM agent (`datamate.slm`) uses pandas because generated analysis code is written against DataFrames.
 3. Retain original labels and source provenance while using safe internal identifiers.
 4. Convert only strict numeric strings; preserve ambiguous values as text instead of guessing locale conventions.
 5. Use `Decimal` aggregate helpers for exact decimal accumulation. Ordinary SQLite `SUM()` is not used by the deterministic planner for decimal measures.

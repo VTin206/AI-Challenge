@@ -154,3 +154,64 @@ def render_catalog(catalog: SchemaCatalog) -> str:
             lines.append(f"  - {rel.from_table}.{rel.from_column} -> {rel.to_table}.{rel.to_column} confidence={rel.confidence} ({rel.cardinality})")
     return "\n".join(lines)
 
+
+
+def _short(value: Any, limit: int = 40) -> str:
+    text = repr(value) if not isinstance(value, str) else repr(value)
+    return text if len(text) <= limit else text[: limit - 3] + "...'"
+
+
+def render_frame_card(frames: dict[str, Any], max_chars: int = 12000, sample_rows: int = 3000) -> str:
+    """Compact schema card over pandas frames for the SLM prompt.
+
+    For each column: non-null share, distinct count, sample values, and how much of the
+    column parses as money/number or date (computed on a row sample). Low-cardinality text
+    columns list all their values. Detail is reduced until the card fits ``max_chars``.
+    """
+    from ..slm.parsing import parse_date, parse_vnd
+
+    def column_line(frame, column: str, samples: int, list_values: bool) -> str:
+        series = frame[column]
+        present = series[series.map(lambda v: v is not None and not (isinstance(v, float) and v != v) and not (isinstance(v, str) and not v.strip()))]
+        if present.empty:
+            return f"  - {column!r}: empty"
+        head = present.iloc[: sample_rows] if len(present) > sample_rows else present
+        try:
+            distinct = present.astype(str).nunique()
+        except TypeError:
+            distinct = -1
+        parts = [f"  - {column!r}: {len(present) / len(series):.0%} filled, {distinct} distinct"]
+        num_rate = head.map(lambda v: parse_vnd(v) is not None).mean()
+        date_values = head.map(lambda v: parse_date(v, 2000))
+        date_rate = date_values.notna().mean()
+        if date_rate >= 0.8 and not all(isinstance(v, (int, float)) for v in head.iloc[:50]):
+            real = [parse_date(v) for v in present]
+            real = [d for d in real if d is not None]
+            span = f" {min(real)}..{max(real)}" if real else " (no year in cells)"
+            parts.append(f"date {date_rate:.0%}{span}")
+        elif num_rate >= 0.8:
+            parts.append(f"number {num_rate:.0%}")
+        if list_values and 0 < distinct <= 15 and present.map(lambda v: isinstance(v, str)).all():
+            values = sorted(present.astype(str).unique())
+            parts.append("values=[" + ", ".join(repr(v) for v in values) + "]")
+        elif samples:
+            uniq = list(dict.fromkeys(present.iloc[:200].tolist()))[:samples]
+            parts.append("e.g. " + ", ".join(_short(v) for v in uniq))
+        return "; ".join(parts)
+
+    def build(samples: int, list_values: bool) -> str:
+        lines = []
+        for name, frame in frames.items():
+            sources = frame["_source"].nunique() if "_source" in frame.columns else 1
+            lines.append(f"FRAME dfs[{name!r}] — {len(frame)} rows, {sources} source sheet/file(s)")
+            for column in frame.columns:
+                if column == "_source":
+                    continue
+                lines.append(column_line(frame, column, samples, list_values))
+        return "\n".join(lines)
+
+    for samples, list_values in ((3, True), (2, True), (1, True), (1, False), (0, False)):
+        card = build(samples, list_values)
+        if len(card) <= max_chars:
+            return card
+    return card[:max_chars] + "\n  ... (card truncated; inspect frames with code)"
