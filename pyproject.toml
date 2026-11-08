@@ -7,10 +7,11 @@ name = "datamate-2026"
 version = "0.1.0"
 description = "CPU-first Vietnamese data question-answering baseline for Zalo AI Challenge 2026"
 requires-python = ">=3.11"
-dependencies = ["openpyxl>=3.1,<4"]
+dependencies = ["openpyxl>=3.1,<4", "pandas>=2.1"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8,<9"]
+slm = ["vllm>=0.8", "transformers>=4.51", "torch"]
 
 [project.scripts]
 datamate = "datamate.cli:main"

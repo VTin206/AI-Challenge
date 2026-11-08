@@ -1,0 +1,4 @@
+{
+  "gen": {"model": "Qwen/Qwen3-0.6B", "backend": "hf", "max_model_len": 32768, "max_new_tokens": 384, "temperature": 0.6, "thinking": false},
+  "k": 2, "max_turns": 2, "tau": 0.0, "sandbox_workers": 2, "card_chars": 4000, "chunk_questions": 8
+}

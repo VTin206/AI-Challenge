@@ -6,6 +6,7 @@ from datamate.temporal import resolve_date_range
 def test_month_ranges_at_month_start_and_end():
     assert resolve_date_range("doanh thu thang nay", date(2026, 3, 1)).start == date(2026, 3, 1)
     assert resolve_date_range("thang nay", date(2026, 3, 31)).end_exclusive == date(2026, 4, 1)
+    assert resolve_date_range("thang nay", date(2026, 3, 4)).end_exclusive == date(2026, 3, 5)
     previous = resolve_date_range("thang truoc", date(2026, 3, 1))
     assert (previous.start, previous.end_exclusive) == (date(2026, 2, 1), date(2026, 3, 1))
 
@@ -13,7 +14,7 @@ def test_month_ranges_at_month_start_and_end():
 def test_week_is_monday_first_and_crosses_year_boundary():
     current = resolve_date_range("tuan nay", date(2026, 1, 1))
     previous = resolve_date_range("tuan roi", date(2026, 1, 1))
-    assert (current.start, current.end_exclusive) == (date(2025, 12, 29), date(2026, 1, 5))
+    assert (current.start, current.end_exclusive) == (date(2025, 12, 29), date(2026, 1, 2))
     assert (previous.start, previous.end_exclusive) == (date(2025, 12, 22), date(2025, 12, 29))
 
 

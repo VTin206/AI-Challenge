@@ -1,0 +1,10 @@
+# Colab A100 training/inference stack. Install vLLM and Unsloth in separate runtimes if their torch pins clash.
+vllm>=0.8.5
+unsloth>=2025.5
+trl>=0.19,<0.25   # SFTConfig.max_length + completion_only_loss
+peft>=0.15
+datasets>=3.5
+transformers>=4.51
+pyyaml>=6
+pandas>=2.1
+openpyxl>=3.1

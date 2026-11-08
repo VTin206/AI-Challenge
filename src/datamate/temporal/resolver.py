@@ -44,16 +44,16 @@ def resolve_date_range(question: str, as_of: date) -> DateRange | None:
         start = start_this - timedelta(days=7)
         return DateRange(start, start + timedelta(days=7), "previous week")
     if any(token in q for token in ("tuan nay", "this week")):
+        # Rulebook §2: Monday of the current week through the end of today.
         start = today - timedelta(days=today.weekday())
-        return DateRange(start, start + timedelta(days=7), "this week")
+        return DateRange(start, today + timedelta(days=1), "this week")
     if "thang truoc" in q or "thang roi" in q or "last month" in q:
         start = _month_start(_month_shift(today, -1))
         end = _month_start(today)
         return DateRange(start, end, "previous month")
     if "thang nay" in q or "this month" in q:
-        start = _month_start(today)
-        end = _month_start(_month_shift(today, 1))
-        return DateRange(start, end, "this month")
+        # Rulebook §2: day 1 through the end of today, never future days.
+        return DateRange(_month_start(today), today + timedelta(days=1), "this month")
     if "quy truoc" in q or "quy roi" in q or "last quarter" in q:
         start = _quarter_start(_month_shift(today, -3))
         return DateRange(start, _quarter_start(today), "previous quarter")
