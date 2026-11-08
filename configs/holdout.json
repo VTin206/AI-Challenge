@@ -1,0 +1,4 @@
+{
+  "note": "Fixed train holdout for tau tuning and model comparison. Never train on these businesses.",
+  "businesses": ["biz_101", "biz_111", "biz_115", "biz_118", "biz_121", "biz_124"]
+}

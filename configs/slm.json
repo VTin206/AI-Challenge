@@ -1,0 +1,27 @@
+{
+  "gen": {
+    "model": "Qwen/Qwen3-14B",
+    "backend": "vllm",
+    "lora": null,
+    "max_model_len": 32768,
+    "max_new_tokens": 1536,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "thinking": false,
+    "think_cap": 1024,
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.9,
+    "quantization": null,
+    "dtype": "bfloat16"
+  },
+  "k": 5,
+  "max_turns": 5,
+  "seed": 0,
+  "tau": 0.6,
+  "tau_by_type": {},
+  "sandbox_workers": 8,
+  "exec_timeout": 20,
+  "card_chars": 12000,
+  "chunk_questions": 64,
+  "cache_dir": "cache"
+}
